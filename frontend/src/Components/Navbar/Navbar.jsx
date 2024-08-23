@@ -2,6 +2,7 @@ import React from 'react'
 import './Navbar.css';
 import logo from '../Assests/logo.png'
 import cart_icon from '../Assests/cart_icon.png'
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div className="main">
@@ -12,17 +13,23 @@ const Navbar = () => {
         </div>
         <div className="navbar">
             <ul className='navbar-ul'>
-                <li>shop</li>
-                <li>men</li>
-                <li>women</li>
-                <li>kids</li>
-                <li>Contact</li>
+              
+              <Link to='/'>  <li>shop</li></Link>
+              <Link to='/mens'>  <li>men</li></Link>
+                <Link to='/womens'>  <li>women</li></Link>
+              <Link to='/kids'>  <li>kids</li></Link>
+                <Link>  <li>Contact</li></Link>
+               
 
             </ul>
         </div>
         <div className="login-cart">
-                    <button>login</button>
-                    <img src={cart_icon} alt="" />
+                    <div className="btn">
+                <Link to="/login">    <button>login</button></Link>
+                    </div>
+                   <div className="cart-logo">
+                  <Link to="/cart">    <img src={cart_icon} alt="" /></Link>
+                   </div>
 
         </div>
     </div>
