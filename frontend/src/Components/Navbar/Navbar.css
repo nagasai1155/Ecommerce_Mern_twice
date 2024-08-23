@@ -1,0 +1,38 @@
+.main{
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.logo-name{
+    display:flex;
+    
+    margin-left:20px;
+    gap:20px;
+}
+.navbar-ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:50px;
+   
+}
+.navbar-ul li{
+    list-style: none;
+    cursor: pointer;
+}
+.login-cart{
+    margin-right:20px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:30px;
+}
+.login-cart button{
+    border-radius:20%;
+    padding:10px 20px;
+    
+}
