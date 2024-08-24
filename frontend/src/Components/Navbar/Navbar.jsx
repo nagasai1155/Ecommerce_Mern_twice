@@ -1,37 +1,40 @@
-import React from 'react'
-import './Navbar.css';
+import React, { useContext, useRef, useState } from 'react'
+import './Navbar.css'
 import logo from '../Assests/logo.png'
 import cart_icon from '../Assests/cart_icon.png'
-import { Link } from 'react-router-dom';
+import nav_dropdown from '../Assests/nav_dropdown.png'
+import { Link } from 'react-router-dom'
+import { ShopContext } from '../../Context/ShopContext'
+
 const Navbar = () => {
+
+    const [menu,setMenu] = useState("shop");
+    const {getTotalCartItems}= useContext(ShopContext);
+    const menuRef = useRef();
+
+    const dropdown_toggle = (e) => {
+      menuRef.current.classList.toggle('nav-menu-visible');
+      e.target.classList.toggle('open');
+    }
+
   return (
-    <div className="main">
-
-        <div className="logo-name">
-            <img src={logo} alt="logo" />
-            <h1>My Website</h1>
-        </div>
-        <div className="navbar">
-            <ul className='navbar-ul'>
-              
-              <Link to='/'>  <li>shop</li></Link>
-              <Link to='/mens'>  <li>men</li></Link>
-                <Link to='/womens'>  <li>women</li></Link>
-              <Link to='/kids'>  <li>kids</li></Link>
-                <Link>  <li>Contact</li></Link>
-               
-
-            </ul>
-        </div>
-        <div className="login-cart">
-                    <div className="btn">
-                <Link to="/login">    <button>login</button></Link>
-                    </div>
-                   <div className="cart-logo">
-                  <Link to="/cart">    <img src={cart_icon} alt="" /></Link>
-                   </div>
-
-        </div>
+    <div className='navbar'>
+      <Link to='/' onClick={()=>{setMenu("shop")}} className="nav-logo">
+        <img src={logo} alt="" />
+        <p>SHOPPER</p>
+      </Link>
+      <img onClick={dropdown_toggle} className='nav-dropdown' src={nav_dropdown} alt="" />
+      <ul ref={menuRef} className="nav-menu">
+        <li onClick={()=>{setMenu("shop")}}><Link to='/'>Shop</Link>{menu==="shop"?<hr/>:<></>}</li>
+        <li onClick={()=>{setMenu("mens")}}><Link to='/mens'>Men</Link>{menu==="mens"?<hr/>:<></>}</li>
+        <li onClick={()=>{setMenu("womens")}}><Link to="/womens">Women</Link>{menu==="womens"?<hr/>:<></>}</li>
+        <li onClick={()=>{setMenu("kids")}}><Link to='/kids'>Kids</Link>{menu==="kids"?<hr/>:<></>}</li>
+      </ul>
+      <div className="nav-login-cart">
+        <Link to='/login'><button>Login</button></Link>
+        <Link to='/cart'><img src={cart_icon} alt="" /></Link>
+        <div className="nav-cart-count">{getTotalCartItems()}</div>
+      </div>
     </div>
   )
 }
