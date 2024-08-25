@@ -36,13 +36,63 @@ app.use('/images',express.static('/upload/images'))
 app.post('/upload',upload.single('product'),(req,res)=>{
     res.json({
        success:1,
-       image_url:`http://localhost:${port}/images/${req.file.filename}`
+       image_url:`http://localhost:${port}/images/${req.file.fieldname}`
     })
 })
 
-//login route
+//schema for creating products 
+const Product = mongoose.model("Product",{
+    id:{
+        type:Number,
+        required:true
+    },
+    name:{
+        type:String,
+        required:true
+    },image:{
+        type:String,
+        required:true
+    },
+    category:{
+        type:String,
+        required:true
+    },
+    new_price:{
+        type:Number,
+        required:true
+    },
+    old_price:{
+        type:Number,
+        required:true
+    },
+    date:{
+        type:Date,
+        default:Date.now()
+    },
+    avilable:{
+        type:Boolean,
+        default:true
+    }
+})
 
-
+app.post('/addproduct',async(req,res)=>{
+        try{
+            const product =  new Product({
+                id:req.body.id,
+                name:req.body.name,
+                image:req.body.image,
+                category:req.body.category,
+                new_price:req.body.new_price,
+                old_price:req.body.old_price
+            });
+            console.log(product);
+            await product.save();
+            console.log("saved");
+            res.json({message:"product added successfully"})
+        }catch(error){
+            res.json({error:error.message})
+        }
+})
 
 app.listen(port,(error)=>{
     if(!error){
