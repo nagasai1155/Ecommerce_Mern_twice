@@ -1,5 +1,6 @@
 import React from "react";
-
+import './AddProduct.css'
+import upload_area from '../../assets/upload_area.svg';
 
 const AddProduct = () => {
 
@@ -32,8 +33,14 @@ const AddProduct = () => {
           <option value="kid">Kid</option>
         </select>
       </div>
-     
-      <button c>ADD</button>
+     <div className="addproduct-itemfield">
+        <label htmlFor="file-input">
+            <img src={upload_area} className="addproduct-thumnail-img" alt="no image found" />
+        </label>
+        <input type="file"   name="image" id="file-input"hidden />
+
+     </div>
+      <button className="addproduct-btn">Add</button>
     </div>
   );
 };
