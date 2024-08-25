@@ -18,10 +18,10 @@ mongoose.connect("mongodb+srv://nagasaibalam:abcd1234@cluster0.kso60hi.mongodb.n
 
 //api creation
 app.get("/",(req,res)=>{
-    res.send("express app is runnig");
+    res.send("express app is running");
 })
 
-//image storyage engine
+//image storage engine
 const storage = multer.diskStorage({
     destination:'./upload/images',
      filename:(req,file,cb)=>{
