@@ -11,13 +11,15 @@ const [productDetails,setProductDetails] = useState({
     new_price:"",
     old_price:""
 });
-
+//covering with the imaage
 const imageHandler =(e)=>{
    setImage(e.target.files[0]);
 }
 const changeHandler =(e)=>{
     setProductDetails({...productDetails,[e.target.name]:e.target.value});
 }
+
+//adding image to the upload folder in the backend
 const Add_Product=async ()=>{
     console.log(productDetails);
     let responseData;
@@ -35,15 +37,20 @@ const Add_Product=async ()=>{
     if(responseData.success){
         product.image=responseData.image_url;
         console.log(product);
-        // await fetch('http://localhost:4000/addproduct',{
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(product),
-        // }).then((resp)=>resp.json()).then((data)=>{console.log(data)})
-        // alert('Product added successfully');
+        await fetch('http://localhost:4000/addproduct',{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(product),
+        }).then((resp)=>resp.json()).then((data)=>{
+            // data.success?alert("product added successfully"):alert("failed");
+            if(data){
+                alert("added successfully");
+            }
+        })
+        
     }
 }
   return (
