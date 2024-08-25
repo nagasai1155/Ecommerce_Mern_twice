@@ -74,11 +74,20 @@ const Product = mongoose.model("Product",{
         default:true
     }
 })
-
+//add product end point 
 app.post('/addproduct',async(req,res)=>{
+    let products = await Product.find({});
+    let id;
+    if(products.length > 0){
+        let last_product_array = products.slice(-1);
+        let last_product= last_product_array[0];
+        id=last_product.id+1;
+    }else{
+        id=1;
+    }
         try{
             const product =  new Product({
-                id:req.body.id,
+                id:id,
                 name:req.body.name,
                 image:req.body.image,
                 category:req.body.category,
@@ -92,6 +101,20 @@ app.post('/addproduct',async(req,res)=>{
         }catch(error){
             res.json({error:error.message})
         }
+})
+
+//removing the data from the database 
+app.delete('/removeproduct',async(req,res)=>{
+    await Product.findOneAndDelete({id:req.body.id});
+    console.log("removed");
+    res.json({name:req.body.name,message:"product removed successfully"})
+})
+
+//get all the products from the database
+app.get('/getproducts',async(req,res)=>{
+    let products = await Product.find({});
+    console.log("all products fecthd");
+    res.send(products);
 })
 
 app.listen(port,(error)=>{
