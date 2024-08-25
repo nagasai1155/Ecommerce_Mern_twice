@@ -23,22 +23,24 @@ app.get("/",(req,res)=>{
 
 //image storage engine
 const storage = multer.diskStorage({
-    destination:'./upload/images',
-     filename:(req,file,cb)=>{
-        return cb(null,`%{file.fieldname}_${Date.now()} ${path.extname(file.originalname)}`)
-     }
-});
-
-const upload = multer({storage:storage});
-
-//upload route
-app.use('/images',express.static('/upload/images'))
-app.post('/upload',upload.single('product'),(req,res)=>{
+    destination: './upload/images',
+    filename: (req, file, cb) => {
+      return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+    }
+  })
+  const upload = multer({ storage: storage })
+  app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
-       success:1,
-       image_url:`http://localhost:${port}/images/${req.file.fieldname}`
+      success: 1,
+      image_url: `http:localhost:4000/images/${req.file.filename}`
     })
-})
+  })
+  
+  
+  // Route for Images folder
+  app.use('/images', express.static('upload/images'));
+  
+  
 
 //schema for creating products 
 const Product = mongoose.model("Product",{
@@ -103,20 +105,19 @@ app.post('/addproduct',async(req,res)=>{
         }
 })
 
-//removing the data from the database 
+//removing the data from the database ki endpoint called remove;
 app.delete('/removeproduct',async(req,res)=>{
     await Product.findOneAndDelete({id:req.body.id});
     console.log("removed");
     res.json({name:req.body.name,message:"product removed successfully"})
 })
 
-//get all the products from the database
+//get all the products from the database (endpoint)
 app.get('/getproducts',async(req,res)=>{
     let products = await Product.find({});
-    console.log("all products fecthd");
+    console.log("all products fetched");
     res.send(products);
 })
-
 app.listen(port,(error)=>{
     if(!error){
         console.log(`Server is running on port ${port}`);
