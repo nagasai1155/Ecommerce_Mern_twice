@@ -26,7 +26,7 @@ const ListProduct = () => {
       body: JSON.stringify({ id: id }),
     })
 
-    fetchInfo();
+        await fetchInfo();
   }
 
   return (
