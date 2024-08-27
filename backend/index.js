@@ -113,11 +113,11 @@ app.delete('/removeproduct',async(req,res)=>{
 })
 
 //get all the products from the database (endpoint)
-app.get('/getproducts',async(req,res)=>{
-    let products = await Product.find({});
-    console.log("all products fetched");
-    res.send(products);
-})
+app.get("/allproducts", async (req, res) => {
+  let products = await Product.find({});
+  console.log("All Products");
+  res.send(products);
+});
 
 
 
@@ -183,6 +183,14 @@ app.post('/signup', async (req, res) => {
     res.json({ success, token })
   })
 
+
+  //creating end point for₹ the new collections data
+  app.get('/newcollections',async(req,res)=>{
+        let products = await Product.find({});
+        let newcollection = products.slice(1).slice(-8);
+        console.log("new collection fetched");
+        res.send(newcollection);
+  })
 
 app.listen(port,(error)=>{
     if(!error){
