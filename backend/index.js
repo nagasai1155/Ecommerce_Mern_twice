@@ -21,6 +21,9 @@ app.get("/",(req,res)=>{
     res.send("express app is running");
 })
 
+// Route for Images folder
+app.use('/images', express.static('upload/images'));
+  
 //image storage engine
 const storage = multer.diskStorage({
     destination: './upload/images',
@@ -32,13 +35,11 @@ const storage = multer.diskStorage({
   app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
       success: 1,
-      image_url: `http:localhost:4000/images/${req.file.filename}`
+      image_url: `http://localhost:${port}/images/${req.file.filename}`
     })
   })
   
   
-  // Route for Images folder
-  app.use('/images', express.static('upload/images'));
   
   
 
