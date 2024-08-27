@@ -236,7 +236,14 @@ app.post('/removefromcart', fetchUser, async (req, res) => {
   res.send("Removed");
 })
 
+  // Create an endpoint for getting the cart data (saving the cart items if a user logout )
 
+  app.post('/getcart', fetchUser, async (req, res) => {
+    console.log("Get Cart");
+    let userData = await Users.findOne({ _id: req.user.id });
+    res.json(userData.cartData);
+  
+  })
 
 app.listen(port,(error)=>{
     if(!error){
