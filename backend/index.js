@@ -193,6 +193,38 @@ app.post('/signup', async (req, res) => {
         res.send(newcollection);
   })
 
+  //creating endpoint for popular in women section
+  app.get('/popularinwomen',async(req,res)=>{
+            let products = await Product.find({category:"women"});
+            let popular_in_women = products.slice(0,4);
+            console.log("popular in women fetched");
+            res.send(popular_in_women);
+  })
+ 
+  //creating middleware to fetch user
+  const fetchUser = async(req,res,next)=>{
+    const token = req.header('auth-token');
+    if(!token){
+      return res.status(401).json({message:"No token, authorization denied"});
+    }else{
+      try{
+        const data = jwt.verify(token,'secret_ecom');
+        req.user = data.user;
+        next();
+
+      }catch(error){
+             return res.status(403).json({message:"Token is not valid"});
+      }
+    }
+  }
+  //creating endpoint for adding products in cartdata
+  app.post('/addtocart',fetchUser,async(req,res)=>{
+     let userData = await Users.findOne({_id:req.user.id})
+     userData.cartData[req.body.itemId] +=1;
+     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData})
+     res.send("added");
+  })
+
 app.listen(port,(error)=>{
     if(!error){
         console.log(`Server is running on port ${port}`);
