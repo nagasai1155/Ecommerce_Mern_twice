@@ -10,7 +10,7 @@ import women_banner from './Components/Assests/banner_women.png'
 import kid_banner from './Components/Assests/banner_kids.png'
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Footer from './Components/Footer/Footer';
-export const backend_url = 'http://localhost:4000';
+export const backend_url = 'http://localhost:4000/';
 export const currency = '₹';
 const App = () => {
   return (
